@@ -4,7 +4,9 @@
 
 ## 怎么访问
 
-最常用的是开发模式，改代码能直接刷新：
+线上版本在 https://elysianki4225-png.github.io/jar/ ，每次 `main` 有更新都会自动重新部署。
+
+本地跑起来的话最常用的是开发模式，改代码能直接刷新：
 
 ```bash
 npm install
