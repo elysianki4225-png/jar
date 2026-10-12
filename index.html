@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#172822" />
+    <meta name="description" content="在浏览器本地解包 Minecraft Mod，编辑语言文件并打包导出。" />
+    <title>ModLingo · Mod 翻译工作台</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#workspace" aria-label="ModLingo 工作台">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 36 36"><path d="M8 27V9l10 10L28 9v18M8 9h5l5 6 5-6h5" /></svg>
+          </span>
+          <span class="brand-copy"><strong>modlingo</strong><small>MOD LANGUAGE STUDIO</small></span>
+        </a>
+
+        <div class="side-label">工作区</div>
+        <nav class="side-nav" aria-label="主导航">
+          <button class="nav-item active" data-nav="workspace">
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg></span>
+            <span>翻译工作台</span><span class="nav-active-mark"></span>
+          </button>
+          <button class="nav-item" data-nav="files">
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H10l2 2h5.5A2.5 2.5 0 0 1 20 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5z"/><path d="M4 9h16"/></svg></span>
+            <span>语言文件</span><span class="nav-count" id="nav-file-count">—</span>
+          </button>
+          <button class="nav-item" data-nav="exports">
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5v11m0 0 4-4m-4 4-4-4"/><path d="M5 15.5v3A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5v-3"/></svg></span>
+            <span>导出记录</span>
+          </button>
+        </nav>
+
+        <div class="side-label project-label">当前项目</div>
+        <button class="side-project" id="side-project" type="button" title="当前打开的 Mod">
+          <span class="mini-file-icon"><svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v5h5M9 13h6M9 16.5h6"/></svg></span>
+          <span class="side-project-copy"><strong id="side-project-name">示例 Mod</strong><small id="side-project-status">示例项目</small></span>
+          <span class="project-dot"></span>
+        </button>
+
+        <div class="sidebar-spacer"></div>
+        <div class="local-card">
+          <div class="local-icon"><svg viewBox="0 0 24 24"><path d="M12 3.5 19 6v5.5c0 4.2-2.9 7.2-7 9-4.1-1.8-7-4.8-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <div><strong>文件只在本机处理</strong><span>不会上传到任何服务器</span></div>
+        </div>
+        <div class="sidebar-foot"><span class="version-dot"></span> ModLingo <span class="foot-version">v1.0</span></div>
+      </aside>
+
+      <main class="main-area" id="workspace">
+        <header class="topbar">
+          <div class="breadcrumb"><span>工作区</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg><strong>翻译工作台</strong></div>
+          <div class="topbar-right"><span class="local-mode"><i></i>本地模式</span><span class="topbar-sep"></span><button class="icon-button help-button" id="help-button" type="button" aria-label="快捷键帮助" title="快捷键帮助"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.4 2.4 0 1 1 4.2 1.6c-1.2 1-1.9 1.4-1.9 2.9M12 17h.01"/></svg></button><span class="avatar">M</span></div>
+        </header>
+
+        <div class="page-content">
+          <section class="page-heading">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-line"></span> MINECRAFT MOD TOOLKIT</div>
+              <h1>翻译工作台</h1>
+              <p>解包语言文件、逐条校对，完成后直接写回 Mod。</p>
+            </div>
+            <div class="heading-actions">
+              <button class="button button-secondary" id="open-mod" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L8 8m4-4 4 4"/><path d="M5 14v4.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V14"/></svg>
+                打开 Mod
+                <kbd>Ctrl O</kbd>
+              </button>
+              <button class="button button-secondary" id="import-translation" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V5m0 0L8 9m4-4 4 4"/><path d="M5 15v3.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>
+                导入翻译
+              </button>
+              <button class="button button-primary" id="pack-mod" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14v13H5z"/><path d="M8 7V4h8v3M9 11h6M9 14h6"/></svg>
+                打包 Mod
+              </button>
+            </div>
+          </section>
+
+          <section class="project-banner card" aria-label="当前 Mod">
+            <div class="project-file-mark"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M7 3.8h9l5 5v15.4H7z"/><path d="M16 3.8v5h5M10 14h8M10 18h8"/></svg><span>JAR</span></div>
+            <div class="project-info">
+              <div class="project-title-row"><h2 id="project-name">forest-expansion-1.4.2.jar</h2><span class="demo-tag" id="demo-tag">体验示例</span></div>
+              <div class="project-meta"><span id="project-size">示例文件 · 1.20.1</span><span class="meta-dot"></span><span id="project-language-count">3 个语言文件</span><span class="meta-dot"></span><span id="project-entry-count">12 个词条</span></div>
+            </div>
+            <div class="banner-divider"></div>
+            <div class="project-health"><span class="health-icon"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8"/></svg></span><div><strong id="project-health-title">文件已就绪</strong><small id="project-health-sub">等待导出</small></div></div>
+            <button class="icon-button more-button" id="project-more" type="button" aria-label="项目操作" title="下载当前语言文件"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0 4-4m-4 4-4-4"/><path d="M5 16v3h14v-3"/></svg></button>
+          </section>
+
+          <section class="summary-grid" aria-label="翻译统计">
+            <article class="summary-card card">
+              <div class="summary-icon icon-ink"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v16H7.5A2.5 2.5 0 0 1 5 16.5z"/><path d="M5 16.5A2.5 2.5 0 0 1 7.5 14H19M9 7h6M9 10h7"/></svg></div>
+              <div class="summary-copy"><span>全部词条</span><strong id="stat-total">12</strong></div>
+              <span class="summary-foot" id="stat-total-foot">来自 1 个命名空间</span>
+            </article>
+            <article class="summary-card card">
+              <div class="summary-icon icon-green"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.2 4.2L19 6.5"/><path d="M20 12a8 8 0 1 1-2.3-5.6"/></svg></div>
+              <div class="summary-copy"><span>已完成</span><strong id="stat-done">4</strong></div>
+              <span class="summary-foot positive-foot"><i></i><span id="stat-rate">33%</span> 完成率</span>
+            </article>
+            <article class="summary-card card">
+              <div class="summary-icon icon-amber"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/></svg></div>
+              <div class="summary-copy"><span>待翻译</span><strong id="stat-pending">8</strong></div>
+              <span class="summary-foot">仅统计空白目标词条</span>
+            </article>
+            <article class="summary-card card">
+              <div class="summary-icon icon-blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v12H4z"/><path d="M8 10h8M8 14h5M7 3.5v3M17 3.5v3"/></svg></div>
+              <div class="summary-copy"><span>占位符检查</span><strong id="stat-issues">0</strong></div>
+              <span class="summary-foot" id="stat-issues-foot">格式正常</span>
+            </article>
+          </section>
+
+          <section class="work-layout" id="work-layout">
+            <section class="editor-card card" aria-label="语言词条编辑器">
+              <div class="editor-top">
+                <div class="editor-heading">
+                  <div><div class="section-kicker">TRANSLATION EDITOR</div><h2>语言词条 <span class="small-count" id="visible-count">12</span></h2></div>
+                  <span class="save-state" id="save-state"><i></i><span>未修改</span></span>
+                </div>
+                <div class="language-pair">
+                  <label class="language-control"><span>源语言</span><span class="select-wrap"><select id="source-language" aria-label="源语言"></select><svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></span></label>
+                  <span class="pair-arrow"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7h11m0 0-3-3m3 3-3 3M16 13H5m0 0 3 3m-3-3 3-3"/></svg></span>
+                  <label class="language-control target-control"><span>目标语言</span><span class="input-wrap"><input id="target-language" list="language-options" value="zh_cn" autocomplete="off" spellcheck="false" aria-label="目标语言" /><datalist id="language-options"></datalist><svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></span></label>
+                </div>
+              </div>
+
+              <div class="editor-toolbar">
+                <label class="search-box"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.8" cy="8.8" r="5.8"/><path d="m13.2 13.2 4 4"/></svg><input id="search" type="search" placeholder="搜索词条、原文或译文" autocomplete="off" /><kbd>/</kbd></label>
+                <div class="filter-tabs" role="tablist" aria-label="词条筛选">
+                  <button class="filter-tab active" data-filter="all" type="button">全部 <span id="filter-all">12</span></button>
+                  <button class="filter-tab" data-filter="pending" type="button">待翻译 <span id="filter-pending">8</span></button>
+                  <button class="filter-tab" data-filter="done" type="button">已完成 <span id="filter-done">4</span></button>
+                  <button class="filter-tab" data-filter="issues" type="button">需检查 <span id="filter-issues">0</span></button>
+                </div>
+              </div>
+
+              <div class="bulk-bar" id="bulk-bar" hidden>
+                <div class="bulk-selection"><strong id="selected-count">0</strong> 项已选</div>
+                <span class="bulk-divider"></span>
+                <button class="text-action" id="copy-source-selected" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5 8 14l8-8"/></svg>复制原文</button>
+                <button class="text-action danger-action" id="clear-selected" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 6h10M8 6V4h4v2m2 0-.7 10H6.7L6 6"/></svg>清空译文</button>
+                <button class="bulk-close" id="clear-selection" type="button" aria-label="取消选择"><svg viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15"/></svg></button>
+              </div>
+
+              <div class="table-wrap" id="table-wrap">
+                <div class="table-head">
+                  <div class="check-cell"><input id="select-visible" type="checkbox" aria-label="选择当前页词条" /></div>
+                  <div class="key-head">词条 Key</div>
+                  <div class="source-head">源文本 <span id="source-label">English (US)</span></div>
+                  <div class="target-head">译文 <span id="target-label">简体中文 · zh_cn</span></div>
+                  <div class="status-head">状态</div>
+                </div>
+                <div class="entry-list" id="entry-list" aria-live="polite"></div>
+                <div class="empty-state" id="empty-state" hidden>
+                  <span class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4 4M8.5 10.8h4.6"/></svg></span>
+                  <strong id="empty-title">没有找到匹配的词条</strong>
+                  <span id="empty-copy">试试其他关键词，或清除筛选条件。</span>
+                  <button id="empty-clear" type="button">清除筛选</button>
+                </div>
+              </div>
+              <div class="editor-footer">
+                <div class="footer-note"><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="6.5"/><path d="M9 8v4M9 5.5h.01"/></svg><span>修改会保留在当前会话，打包后写入 Mod</span></div>
+                <div class="pagination"><span id="page-summary">显示 1–12，共 12 项</span><button id="prev-page" type="button" aria-label="上一页" disabled><svg viewBox="0 0 20 20"><path d="m12.5 4.5-6 5.5 6 5.5"/></svg></button><span class="page-number" id="page-number">1</span><button id="next-page" type="button" aria-label="下一页" disabled><svg viewBox="0 0 20 20"><path d="m7.5 4.5 6 5.5-6 5.5"/></svg></button></div>
+              </div>
+            </section>
+
+            <aside class="inspector">
+              <section class="progress-card card">
+                <div class="card-heading"><div><span class="section-kicker">PROGRESS</span><h2>翻译进度</h2></div><button class="plain-icon" id="progress-info" type="button" aria-label="进度说明" title="已填写非空译文的词条数量"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.2"/><path d="M10 9v4M10 6.3h.01"/></svg></button></div>
+                <div class="progress-number-row"><strong id="progress-percent">33<span>%</span></strong><span id="progress-caption">4 / 12 已完成</span></div>
+                <div class="progress-track"><span id="progress-fill" style="width:33%"></span></div>
+                <div class="progress-meta"><span><i class="legend-dot done-dot"></i><b id="progress-done">4</b> 已翻译</span><span><i class="legend-dot pending-dot"></i><b id="progress-pending">8</b> 待处理</span></div>
+                <button class="wide-soft-button" id="show-pending" type="button">继续翻译待处理词条<svg viewBox="0 0 18 18"><path d="M4 9h9m0 0-3.5-3.5M13 9l-3.5 3.5"/></svg></button>
+              </section>
+
+              <section class="quality-card card">
+                <div class="card-heading"><div><span class="section-kicker">QUALITY CHECK</span><h2>译文检查</h2></div><span class="quality-count" id="quality-count">0</span></div>
+                <div class="quality-row" id="placeholder-check-row"><span class="quality-symbol"><svg viewBox="0 0 20 20"><path d="M6.5 5.5h7v9h-7z"/><path d="M8.5 8h3M8.5 11h3"/></svg></span><span class="quality-copy"><strong>占位符一致性</strong><small id="placeholder-summary">原文与译文格式一致</small></span><span class="quality-status good" id="placeholder-status"><svg viewBox="0 0 16 16"><path d="m3.5 8 3 3 6-6"/></svg></span></div>
+                <div class="quality-row" id="empty-check-row"><span class="quality-symbol warning-symbol"><svg viewBox="0 0 20 20"><path d="M10 3 18 17H2z"/><path d="M10 7v4M10 14h.01"/></svg></span><span class="quality-copy"><strong>空白译文</strong><small id="empty-summary">还有 8 项未填写</small></span><button class="quality-jump" id="quality-jump" type="button" aria-label="查看空白译文"><svg viewBox="0 0 16 16"><path d="m6 3 5 5-5 5"/></svg></button></div>
+              </section>
+
+              <section class="files-card card" id="files-card">
+                <div class="card-heading"><div><span class="section-kicker">LANGUAGE FILES</span><h2>语言文件</h2></div><span class="files-total" id="files-total">3</span></div>
+                <div class="file-list" id="file-list"></div>
+                <button class="file-detail-button" id="file-detail-button" type="button">查看文件路径<svg viewBox="0 0 18 18"><path d="M4 9h9m0 0-3.5-3.5M13 9l-3.5 3.5"/></svg></button>
+              </section>
+            </aside>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <input id="mod-file" type="file" accept=".jar,.zip,application/java-archive,application/zip" hidden />
+    <input id="translation-file" type="file" accept=".json,.lang,application/json,text/plain" hidden />
+
+    <div class="drop-overlay" id="drop-overlay" aria-hidden="true"><div class="drop-card"><span><svg viewBox="0 0 28 28"><path d="M14 19V5m0 0-5 5m5-5 5 5"/><path d="M5 17v5h18v-5"/></svg></span><strong>松开以打开 Mod</strong><small>支持 .jar 和 .zip</small></div></div>
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+    <div class="modal-backdrop" id="modal-backdrop" hidden>
+      <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-head"><div><span class="section-kicker" id="modal-kicker">MODLINGO</span><h2 id="modal-title">弹窗</h2></div><button class="plain-icon" id="modal-close" type="button" aria-label="关闭"><svg viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div>
+        <div class="modal-body" id="modal-body"></div>
+        <div class="modal-actions" id="modal-actions"></div>
+      </section>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
