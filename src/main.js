@@ -128,8 +128,12 @@ function namespaceFromGroup(group) {
 }
 
 function placeholders(text) {
-  const matches = String(text || '').match(/%(?:\d+\$)?[a-zA-Z]|%\([^)]+\)[a-zA-Z]|\{[a-zA-Z0-9_.-]+\}|\$\{[^}]+\}/g)
-  return matches ? matches.sort() : []
+  const matches = String(text || '').match(/%%|%(?:\d+\$)?[-+0#]*\d*(?:\.\d+)?[a-zA-Z]|%\([^)]+\)[a-zA-Z]|\{[a-zA-Z0-9_.-]+\}|\$\{[^}]+\}/g) || []
+  // %% 是转义的百分号；%1$s 和 %s 当成同一个参数，允许译文调换顺序
+  return matches
+    .filter((item) => item !== '%%')
+    .map((item) => item.replace(/^%\d+\$/, '%'))
+    .sort()
 }
 
 function hasPlaceholderIssue(entry) {
@@ -174,6 +178,8 @@ function makeLangFile(path, raw, rawText = '') {
 }
 
 function parseLanguageText(path, text) {
+  // JSZip 读出来的字符串会保留 BOM，Windows 编辑器存的文件会因此 JSON.parse 失败
+  text = text.replace(/^\uFEFF/, '')
   const format = path.toLowerCase().endsWith('.lang') ? 'lang' : 'json'
   const raw = format === 'json' ? JSON.parse(text) : null
   return makeLangFile(path, raw, text)
@@ -678,7 +684,8 @@ function serializeLang(text, updates) {
   const source = String(text || '')
   const newline = source.includes('\r\n') ? '\r\n' : '\n'
   const ended = /\r?\n$/.test(source)
-  const lines = source.split(/\r?\n/)
+  // 空文件直接 split 会得到一个空行，写出来开头会多一个换行
+  const lines = source ? source.split(/\r?\n/) : []
   if (ended) lines.pop()
   const seen = new Set()
   const result = []
