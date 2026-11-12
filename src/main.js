@@ -1188,7 +1188,7 @@ const themeToggle = $('#theme-toggle')
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme
   themeToggle?.setAttribute('aria-pressed', String(theme === 'dark'))
-  themeToggle?.setAttribute('title', theme === 'dark' ? '切换到浅色' : '切换到深色')
+  themeToggle?.setAttribute('title', theme === 'dark' ? '切换到纸白模式' : '切换到夜间模式')
 }
 
 if (!document.documentElement.dataset.theme) applyTheme('light')
