@@ -1181,4 +1181,27 @@ window.addEventListener('beforeunload', (event) => {
   event.returnValue = ''
 })
 
+// Soft UI：浅色 / 深色主题切换，跟随系统偏好，选择后记住
+const THEME_KEY = 'modlingo-theme'
+const themeToggle = $('#theme-toggle')
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme
+  themeToggle?.setAttribute('aria-pressed', String(theme === 'dark'))
+  themeToggle?.setAttribute('title', theme === 'dark' ? '切换到浅色' : '切换到深色')
+}
+
+if (!document.documentElement.dataset.theme) applyTheme('light')
+else applyTheme(document.documentElement.dataset.theme)
+
+themeToggle?.addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
+  applyTheme(next)
+  try {
+    localStorage.setItem(THEME_KEY, next)
+  } catch (error) {
+    /* 直接打开 dist/index.html 时可能写不了 localStorage，忽略即可 */
+  }
+})
+
 bootSample()
